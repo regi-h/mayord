@@ -134,6 +134,11 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
     await new Promise((resolve) => setTimeout(resolve, 800))
     // Fire the Google Ads lead conversion.
     trackFormLead("contact_page")
+    // Push the GTM conversion event ONLY after the submission has succeeded.
+    window.dataLayer = window.dataLayer || []
+    window.dataLayer.push({
+      event: "mayord_contact_form_success",
+    })
     setSending(false)
     setSubmitted(true)
   }

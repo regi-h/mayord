@@ -20,7 +20,7 @@ const copy = {
     callCta: "CALL NOW: ",
     shopCta: "SHOP NEW & USED TIRES",
     shopHref: "/tires",
-    reviews: "206 reviews",
+    reviews: "over 200 reviews",
     familyOwned: "Family-Owned",
     open7: "Open 7 Days",
     hablamos: "Hablamos Español",
@@ -39,7 +39,7 @@ const copy = {
     callCta: "LLAME AHORA: ",
     shopCta: "VER LLANTAS NUEVAS Y USADAS",
     shopHref: "/es/llantas",
-    reviews: "206 reseñas",
+    reviews: "más de 200 reseñas",
     familyOwned: "Negocio Familiar",
     open7: "Abierto 7 Días",
     hablamos: "Hablamos Español",
@@ -87,7 +87,7 @@ export default function Hero({ locale = "en" }: { locale?: Locale }) {
           </div>
           <p className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm sm:text-base font-medium text-brand-text-muted">
             <span className="inline-flex items-center gap-1 text-brand-orange font-bold">
-              4.4
+              4.5
               <Star size={16} className="fill-current" />
             </span>
             <span aria-hidden="true">&middot;</span>

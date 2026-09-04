@@ -25,16 +25,11 @@ export function trackEvent(name: string, params: EventParams = {}) {
   window.gtag("event", name, params)
 }
 
-// Fires the Google Ads conversion action (used for calls and qualified leads).
-export function trackPhoneConversion() {
-  if (typeof window === "undefined" || typeof window.gtag !== "function") return
-  window.gtag("event", "conversion", { send_to: GA_CONVERSION_ID })
-}
-
 // Click on any tel: link. `label` identifies where on the site it happened.
+// Google Ads conversions for calls are handled by GTM (container GTM-N88SGK53),
+// so we no longer fire the Ads conversion directly via gtag.js here.
 export function trackPhoneCall(label: string) {
   trackEvent("phone_call_click", { label })
-  trackPhoneConversion()
 }
 
 // Click on any WhatsApp (wa.me) link.
@@ -47,8 +42,10 @@ export function trackDirections(label: string) {
   trackEvent("directions_click", { label })
 }
 
-// A successful lead form submission. Also counts as an Ads conversion.
+// A successful lead form submission.
+// The Google Ads conversion for form leads is handled by GTM (container
+// GTM-N88SGK53) via the `mayord_contact_form_success` dataLayer event, so we
+// no longer fire the Ads conversion directly via gtag.js here.
 export function trackFormLead(label: string) {
   trackEvent("form_submit_lead", { label })
-  trackPhoneConversion()
 }

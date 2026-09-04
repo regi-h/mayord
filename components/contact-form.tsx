@@ -83,6 +83,7 @@ const t = {
     submit: "GET MY QUOTE",
     footerPre: "We reply within the hour during business hours. Prefer to talk? Call ",
     footerPost: " — Hablamos Español.",
+    errorMessage: "We couldn't send your request. Please try again.",
   },
   es: {
     whatsappMessage: "¡Hola! Me gustaría una cotización de llantas.",
@@ -110,6 +111,7 @@ const t = {
     submit: "QUIERO MI COTIZACIÓN",
     footerPre: "Respondemos dentro de una hora en horario de atención. ¿Prefiere hablar? Llame ",
     footerPost: " — Hablamos Español.",
+    errorMessage: "No pudimos enviar su solicitud. Por favor, inténtelo de nuevo.",
   },
 }
 
@@ -119,6 +121,7 @@ const inputClasses =
 export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
   const [submitted, setSubmitted] = useState(false)
   const [sending, setSending] = useState(false)
+  const [error, setError] = useState(false)
   const [interest, setInterest] = useState("")
 
   const c = t[locale]
@@ -129,18 +132,53 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    // Prevent duplicate submissions while a request is in flight.
+    if (sending) return
     setSending(true)
-    // TODO: wire up to your form backend (e.g. a server action, Formspree, or an API route)
-    await new Promise((resolve) => setTimeout(resolve, 800))
-    // Fire the Google Ads lead conversion.
-    trackFormLead("contact_page")
-    // Push the GTM conversion event ONLY after the submission has succeeded.
-    window.dataLayer = window.dataLayer || []
-    window.dataLayer.push({
-      event: "mayord_contact_form_success",
-    })
-    setSending(false)
-    setSubmitted(true)
+    setError(false)
+
+    // Collect every field currently in the form (uncontrolled inputs are read
+    // via FormData, so the user's data is preserved on error automatically).
+    const form = e.currentTarget
+    const formData = new FormData(form)
+    const payload = {
+      access_key: "e5935bb6-68cd-4f2e-a753-c3fb019a3114",
+      subject: "New Website Lead - Contact Form",
+      ...Object.fromEntries(formData.entries()),
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+      const result = await response.json()
+
+      // Only treat it as a success when Web3Forms confirms it.
+      if (response.ok && result.success) {
+        // Named GA analytics event (not a Google Ads conversion).
+        trackFormLead("contact_page")
+        // Push the GTM conversion event ONLY after a confirmed successful submission.
+        window.dataLayer = window.dataLayer || []
+        window.dataLayer.push({
+          event: "mayord_contact_form_success",
+        })
+        form.reset()
+        setSubmitted(true)
+      } else {
+        console.error("Web3Forms submission was not successful:", result)
+        setError(true)
+      }
+    } catch (err) {
+      console.error("Web3Forms request failed:", err)
+      setError(true)
+    } finally {
+      setSending(false)
+    }
   }
 
   if (submitted) {
@@ -210,6 +248,17 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
       className="space-y-6"
       onSubmit={handleSubmit}
     >
+      {/* Honeypot field for spam bots — hidden from real users, ignored by Web3Forms on real submissions. */}
+      <input
+        type="checkbox"
+        name="botcheck"
+        className="hidden"
+        style={{ display: "none" }}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
           <label htmlFor="name" className="block text-sm font-bold text-gray-900 mb-2">
@@ -321,6 +370,16 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
             </a>
             {c.urgentPost}
           </p>
+        </div>
+      )}
+
+      {error && (
+        <div
+          role="alert"
+          className="flex items-start gap-3 bg-red-50 border border-red-300 rounded-xl p-4"
+        >
+          <Phone size={20} className="text-red-600 mt-0.5 flex-shrink-0" />
+          <p className="text-sm font-semibold text-red-700 leading-relaxed">{c.errorMessage}</p>
         </div>
       )}
 

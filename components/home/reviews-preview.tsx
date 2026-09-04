@@ -21,7 +21,7 @@ const copy = {
       </>
     ),
     leaveReview: "Leave us a review",
-    reviewsAcross: (count: number) => `${count} reviews across Google & Yelp`,
+    reviewsAcross: (_count: number) => `Over 200 reviews across Google & Yelp`,
     reviewsWord: "reviews",
     all: "All",
   },
@@ -37,7 +37,7 @@ const copy = {
       </>
     ),
     leaveReview: "Déjenos una reseña",
-    reviewsAcross: (count: number) => `${count} reseñas en Google y Yelp`,
+    reviewsAcross: (_count: number) => `Más de 200 reseñas en Google y Yelp`,
     reviewsWord: "reseñas",
     all: "Todas",
   },

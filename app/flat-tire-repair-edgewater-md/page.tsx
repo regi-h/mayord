@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import {
   AlertTriangle,
@@ -107,6 +108,25 @@ export default function FlatTireRepairLandingPage() {
             <span>No appointment needed</span>
           </p>
         </div>
+      </section>
+
+      {/* 1b. Real shop photo */}
+      <section className="border-b border-brand-surface-light">
+        <figure className="relative aspect-[16/10] w-full overflow-hidden sm:aspect-[2/1] lg:aspect-[21/9]">
+          <Image
+            src="/images/tire-shop-inventory-edgewater.jpeg"
+            alt="Inside the Mayo RD tire shop in Edgewater, MD — racks stacked with new and quality used tires ready for same-day installation."
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-dark/90 to-transparent px-4 pb-4 pt-16 sm:px-6">
+            <p className="mx-auto max-w-6xl font-label text-sm font-bold uppercase tracking-wide text-white sm:text-base">
+              Hundreds of tires in stock — new &amp; quality used, ready the same visit.
+            </p>
+          </figcaption>
+        </figure>
       </section>
 
       {/* 2. Cross-path banner: can't drive on it? */}

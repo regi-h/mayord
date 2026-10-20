@@ -1,0 +1,6 @@
+Contact: https://mayord.us/contact
+Contact: tel:+1-240-595-8547
+Expires: 2027-10-19T00:00:00.000Z
+Preferred-Languages: en, es
+Canonical: https://mayord.us/.well-known/security.txt
+Policy: https://mayord.us/privacy-policy

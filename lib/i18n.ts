@@ -20,6 +20,9 @@ export const ROUTE_PAIRS: [string, string][] = [
   ["/flat-tire-repair-edgewater-md", "/es/reparacion-de-llantas-edgewater-md"],
   ["/mobile-tire-service-edgewater-md", "/es/servicio-movil-de-llantas-edgewater-md"],
   ["/tpms-service-edgewater-md", "/es/sensores-tpms-edgewater-md"],
+  ["/privacy-policy", "/es/politica-de-privacidad"],
+  ["/cookie-policy", "/es/politica-de-cookies"],
+  ["/terms-of-service", "/es/terminos-de-servicio"],
 ]
 
 const EN_TO_ES = new Map(ROUTE_PAIRS)

@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { siteConfig } from "@/lib/data"
 import type { Locale } from "@/lib/i18n"
 import { trackFormLead } from "@/lib/gtag"
@@ -21,6 +22,9 @@ const copy = {
     smsBody: (size: string, name: string, phone: string) =>
       `Hi Mayo RD Tire Shop, I'd like to check availability on used tires. Tire size/vehicle: ${size}. Name: ${name}. My number: ${phone}.`,
     thankYouHref: "/thank-you",
+    consentPre: "We'll only use your info to reply to this request. Msg & data rates may apply. ",
+    privacyLink: "Privacy Policy",
+    privacyHref: "/privacy-policy",
   },
   es: {
     sizeLabel: "Medida de llanta o vehículo",
@@ -34,6 +38,9 @@ const copy = {
     smsBody: (size: string, name: string, phone: string) =>
       `Hola Mayo RD Tire Shop, quisiera verificar disponibilidad de llantas usadas. Medida/vehículo: ${size}. Nombre: ${name}. Mi número: ${phone}.`,
     thankYouHref: "/es/gracias",
+    consentPre: "Solo usaremos sus datos para responder a esta solicitud. Pueden aplicarse tarifas de mensajes y datos. ",
+    privacyLink: "Política de Privacidad",
+    privacyHref: "/es/politica-de-privacidad",
   },
 }
 
@@ -82,6 +89,7 @@ export default function QuoteForm({
             id="q-size"
             type="text"
             required
+            maxLength={120}
             value={size}
             onChange={(e) => setSize(e.target.value)}
             placeholder={t.sizePlaceholder}
@@ -99,6 +107,7 @@ export default function QuoteForm({
             id="q-name"
             type="text"
             required
+            maxLength={100}
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={t.namePlaceholder}
@@ -116,6 +125,7 @@ export default function QuoteForm({
             id="q-phone"
             type="tel"
             required
+            maxLength={25}
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder={t.phonePlaceholder}
@@ -131,6 +141,12 @@ export default function QuoteForm({
       </button>
       <p className="mt-3 text-center text-sm text-brand-text-muted">
         {t.footer(siteConfig.phone)}
+      </p>
+      <p className="mt-2 text-center text-xs leading-relaxed text-brand-text-muted">
+        {t.consentPre}
+        <Link href={t.privacyHref} className="underline underline-offset-2 hover:text-white">
+          {t.privacyLink}
+        </Link>
       </p>
     </form>
   )

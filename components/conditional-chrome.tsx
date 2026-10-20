@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import WhatsAppButton from "@/components/whatsapp-button"
+import CookieConsent from "@/components/consent/cookie-consent"
+import LegalLinksBar from "@/components/legal/legal-links"
 
 /**
  * Landing pages built for standalone Google Ads campaigns. They keep the
@@ -41,15 +43,21 @@ export default function ConditionalChrome({ children }: { children: ReactNode })
   const locale = pathname?.startsWith("/es") ? "es" : "en"
 
   if (isBare) {
-    return <main>{children}</main>
+    return (
+      <>
+        <main>{children}</main>
+        <CookieConsent locale={locale} />
+      </>
+    )
   }
 
   return (
     <>
       <Header locale={locale} />
       <main>{children}</main>
-      {!hideFooter && <Footer locale={locale} />}
+      {hideFooter ? <LegalLinksBar locale={locale} /> : <Footer locale={locale} />}
       <WhatsAppButton locale={locale} />
+      <CookieConsent locale={locale} />
     </>
   )
 }

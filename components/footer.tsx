@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Clock, DoorOpen, Facebook, MapPin, Phone, Truck } from "lucide-react"
 import { navLinks, siteConfig } from "@/lib/data"
 import { esNavLinks, type Locale } from "@/lib/i18n"
+import { LegalLinkList } from "@/components/legal/legal-links"
 
 const copy = {
   en: {
@@ -72,7 +73,8 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
               <a
                 href={siteConfig.facebookUrl}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
                 className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-[#1877F2] hover:text-white transition-all"
               >
                 <Facebook size={20} className="fill-current" />
@@ -139,14 +141,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
           <p className="text-brand-text-muted text-sm font-medium">
             &copy; {new Date().getFullYear()} {siteConfig.name}. {t.rights}
           </p>
-          <div className="flex gap-4 text-sm font-medium text-brand-text-muted">
-            <a href="#" className="hover:text-white transition-colors">
-              {t.privacy}
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              {t.terms}
-            </a>
-          </div>
+          <LegalLinkList locale={locale} className="md:justify-end" />
         </div>
       </div>
     </footer>

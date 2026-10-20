@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { Check, Clock, MessageCircle, Phone, Send } from "lucide-react"
 import { siteConfig, whatsappHref } from "@/lib/data"
 import type { Locale } from "@/lib/i18n"
@@ -84,6 +85,10 @@ const t = {
     footerPre: "We reply within the hour during business hours. Prefer to talk? Call ",
     footerPost: " — Hablamos Español.",
     errorMessage: "We couldn't send your request. Please try again.",
+    consentPre:
+      "By submitting, you agree we may call or text you at the number provided about your request. Msg & data rates may apply; reply STOP to opt out. See our ",
+    privacyLink: "Privacy Policy",
+    privacyHref: "/privacy-policy",
   },
   es: {
     whatsappMessage: "¡Hola! Me gustaría una cotización de llantas.",
@@ -112,6 +117,10 @@ const t = {
     footerPre: "Respondemos dentro de una hora en horario de atención. ¿Prefiere hablar? Llame ",
     footerPost: " — Hablamos Español.",
     errorMessage: "No pudimos enviar su solicitud. Por favor, inténtelo de nuevo.",
+    consentPre:
+      "Al enviar, acepta que podamos llamarle o enviarle mensajes de texto al número proporcionado sobre su solicitud. Pueden aplicarse tarifas de mensajes y datos; responda STOP para cancelar. Consulte nuestra ",
+    privacyLink: "Política de Privacidad",
+    privacyHref: "/es/politica-de-privacidad",
   },
 }
 
@@ -268,6 +277,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
             required
             id="name"
             name="name"
+            maxLength={100}
             type="text"
             placeholder={c.namePlaceholder}
             className={inputClasses}
@@ -281,6 +291,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
             required
             id="phone"
             name="phone"
+            maxLength={25}
             type="tel"
             inputMode="tel"
             autoComplete="tel"
@@ -297,6 +308,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
         <input
           id="vehicle"
           name="vehicle"
+            maxLength={120}
           type="text"
           placeholder={c.vehiclePlaceholder}
           className={inputClasses}
@@ -333,6 +345,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
         <textarea
           id="message"
           name="message"
+            maxLength={2000}
           rows={4}
           placeholder={c.messagePlaceholder}
           className={`${inputClasses} resize-y`}
@@ -346,6 +359,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
         <input
           id="email"
           name="email"
+            maxLength={254}
           type="email"
           autoComplete="email"
           placeholder="your@email.com"
@@ -402,6 +416,13 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
             {siteConfig.phone}
           </a>
           {c.footerPost}
+        </p>
+        <p className="text-xs text-gray-500 mt-3 leading-relaxed">
+          {c.consentPre}
+          <Link href={c.privacyHref} className="font-semibold text-gray-700 underline underline-offset-2 hover:text-brand-orange">
+            {c.privacyLink}
+          </Link>
+          .
         </p>
       </div>
     </form>

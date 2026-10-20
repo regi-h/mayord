@@ -23,6 +23,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/about", priority: 0.6, changeFrequency: "yearly" },
     { path: "/contact", priority: 0.8, changeFrequency: "yearly" },
     { path: "/blog", priority: 0.7, changeFrequency: "weekly" },
+    { path: "/privacy-policy", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/cookie-policy", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/terms-of-service", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/es/politica-de-privacidad", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/es/politica-de-cookies", priority: 0.3, changeFrequency: "yearly" },
+    { path: "/es/terminos-de-servicio", priority: 0.3, changeFrequency: "yearly" },
   ]
 
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({

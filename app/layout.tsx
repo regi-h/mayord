@@ -4,6 +4,7 @@ import { Work_Sans, Lexend, Space_Grotesk } from "next/font/google"
 import ConditionalChrome from "@/components/conditional-chrome"
 import HtmlLangSetter from "@/components/html-lang-setter"
 import { GA_CONVERSION_ID, GTAG_ID } from "@/lib/gtag"
+import { consentDefaultsScript } from "@/lib/consent"
 import { siteConfig } from "@/lib/data"
 import { SITE_URL, OG_IMAGE, localBusinessSchema, jsonLdProps } from "@/lib/seo"
 import "./globals.css"
@@ -54,6 +55,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Google Consent Mode v2 defaults — must run before any Google tag loads. */}
+        <script id="consent-defaults" dangerouslySetInnerHTML={{ __html: consentDefaultsScript }} />
         {/* Google Tag Manager */}
         <Script id="google-tag-manager-n88sgk53" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
